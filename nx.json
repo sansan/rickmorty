@@ -21,10 +21,6 @@
   "projects": {
     "rickmorty": {
       "tags": []
-    },
-    "rickmorty-e2e": {
-      "tags": [],
-      "implicitDependencies": ["rickmorty"]
     }
   }
 }
