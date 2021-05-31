@@ -21,6 +21,21 @@
   "projects": {
     "rickmorty": {
       "tags": []
+    },
+    "ui-atoms": {
+      "tags": []
+    },
+    "ui-molecules": {
+      "tags": []
+    },
+    "ui-organisms": {
+      "tags": []
+    },
+    "services": {
+      "tags": []
+    },
+    "config": {
+      "tags": []
     }
   }
 }
