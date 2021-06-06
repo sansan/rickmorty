@@ -1,2 +1,2 @@
 export * from './lib/locations/locations';
-export * from './lib/services';
+export * from './lib/locations/locations.d'

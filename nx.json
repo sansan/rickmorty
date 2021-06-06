@@ -36,6 +36,15 @@
     },
     "config": {
       "tags": []
+    },
+    "utils": {
+      "tags": []
+    },
+    "libs-ui-templates-ui-templates": {
+      "tags": []
+    },
+    "ui-templates": {
+      "tags": []
     }
   }
 }

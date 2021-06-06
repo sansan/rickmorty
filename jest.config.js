@@ -6,5 +6,8 @@ module.exports = {
     '<rootDir>/libs/ui/organisms',
     '<rootDir>/libs/services',
     '<rootDir>/libs/config',
+    '<rootDir>/libs/utils',
+    '<rootDir>/libs/libs/ui/templates/ui/templates',
+    '<rootDir>/libs/ui/templates',
   ],
 };

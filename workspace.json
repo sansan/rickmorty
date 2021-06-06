@@ -173,6 +173,71 @@
           }
         }
       }
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/utils/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/utils"],
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "libs-ui-templates-ui-templates": {
+      "root": "libs/libs/ui/templates/ui/templates",
+      "sourceRoot": "libs/libs/ui/templates/ui/templates/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/libs/ui/templates/ui/templates/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/libs/ui/templates/ui/templates"],
+          "options": {
+            "jestConfig": "libs/libs/ui/templates/ui/templates/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-templates": {
+      "root": "libs/ui/templates",
+      "sourceRoot": "libs/ui/templates/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/templates/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/templates"],
+          "options": {
+            "jestConfig": "libs/ui/templates/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

@@ -19,7 +19,12 @@
       "@rickmorty/ui/molecules": ["libs/ui/molecules/src/index.ts"],
       "@rickmorty/ui/organisms": ["libs/ui/organisms/src/index.ts"],
       "@rickmorty/services": ["libs/services/src/index.ts"],
-      "@rickmorty/config": ["libs/config/src/index.ts"]
+      "@rickmorty/config": ["libs/config/src/index.ts"],
+      "@rickmorty/utils": ["libs/utils/src/index.ts"],
+      "@rickmorty/libs/ui/templates/ui/templates": [
+        "libs/libs/ui/templates/ui/templates/src/index.ts"
+      ],
+      "@rickmorty/ui/templates": ["libs/ui/templates/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
