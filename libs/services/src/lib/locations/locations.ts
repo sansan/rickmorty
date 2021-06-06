@@ -1,6 +1,7 @@
 import { request, gql } from 'graphql-request';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
+import chunk from 'lodash/chunk';
 
 import { slugify } from '@rickmorty/utils';
 import { API_ENDPOINT } from '@rickmorty/config';
@@ -146,11 +147,19 @@ export const getAllCharacters = async () => {
     `
   );
 
-  const results = await Promise.all(
-    new Array(pages)
-      .fill('')
-      .map((_, index) => getCharacterPage({ pageNumber: index + 1 }))
+  const pagesForRequest = chunk(
+    new Array(pages).fill('').map((_, index) => index + 1),
+    3
   );
+  let results = [];
+
+  for (let i = 0; i < pagesForRequest.length; i++) {
+    const response = await Promise.all(
+      pagesForRequest[i].map((pageNumber) => getCharacterPage({ pageNumber }))
+    );
+
+    results = [...results, ...flatten(response)]
+  }
 
   return flatten(results) as PaginatedCharacters[];
 };
