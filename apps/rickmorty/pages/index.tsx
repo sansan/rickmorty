@@ -66,8 +66,6 @@ export function Index({
     }
   );
 
-  console.log({ data, error, status });
-
   if (isFetching) {
     return <div>Loading...</div>;
   }
