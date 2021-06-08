@@ -45,12 +45,12 @@ export function Index({
   const router = useRouter();
   const { dimension, type } = router.query;
   const selectedDimension = dimension
-    ? params.dimensions.find(({ slug }) => slug === dimension).name
+    ? params.dimensions.find(({ slug }) => slug === dimension)?.name
     : null;
   const selectedType = type
-    ? params.types.find(({ slug }) => slug === type).name
+    ? params.types.find(({ slug }) => slug === type)?.name
     : null;
-  const { data, error, isError, isSuccess, isFetching, status } = useQuery(
+  const { data, isError, isSuccess, isFetching } = useQuery(
     ['locations', selectedDimension, selectedType],
     () =>
       getLocations({
