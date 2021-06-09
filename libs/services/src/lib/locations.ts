@@ -134,7 +134,7 @@ export const getAllLocations = async (): Promise<Pick<Location, "id" | "name" | 
     new Array(pages).fill('').map((_, i) => getLocations({ page: i + 1 }))
   );
 
-  return flatten(response.map(( res ) => res.locations.results))
+  return flatten(response.map(( res ) => res.locations.results)) as Pick<Location, "id" | "name" | "dimension" | "type">[]
 };
 
 export const getAllLocationParams = async () => {
