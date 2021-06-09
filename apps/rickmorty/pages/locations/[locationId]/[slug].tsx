@@ -126,7 +126,7 @@ const Location = ({ location }) => {
               <AlertDescription>
                 According to some countries residents are always considered to
                 be those who are originally from the location not considering
-                where they are nwo.
+                where they are now.
               </AlertDescription>
             </Alert>
             <List w="100%" spacing={5}>

@@ -1,9 +1,16 @@
 import React from 'react';
 import { Box, Heading, HStack, List, ListItem, Avatar } from '@chakra-ui/react';
 
+import { Character } from '@rickmorty/services';
+
 import { Container } from '@rickmorty/ui/atoms';
 
-const CharacterCard = ({ character, isVisitor }) => {
+type CharacterCardProps = {
+  character: any;
+  isVisitor?: boolean;
+};
+
+const CharacterCard = ({ character, isVisitor }: CharacterCardProps) => {
   return (
     <Container px={5} key={character.id}>
       <ListItem>
@@ -17,7 +24,9 @@ const CharacterCard = ({ character, isVisitor }) => {
               <ListItem>Gender: {character.gender}</ListItem>
               {isVisitor && <ListItem>From: {character.origin.name}</ListItem>}
 
-              {!isVisitor && <ListItem>Location: {character.location.name}</ListItem>}
+              {!isVisitor && (
+                <ListItem>Location: {character.location.name}</ListItem>
+              )}
             </List>
           </Box>
         </HStack>
