@@ -18,6 +18,8 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 
 import { Content } from '@rickmorty/ui/templates';
@@ -67,43 +69,47 @@ const Location = ({ location }) => {
     <Content.Full>
       <Seo pageName={`Location: ${location.name}`} />
       <Heading w="100%">{location.name}</Heading>
-      <HStack w="100%" justifyContent="space-around">
-        <Container px={4}>
-          <Heading size="sm" mb={2}>
-            Residents by Status
-          </Heading>
-          <List>
-            {Object.keys(stats.status).map((key) => (
-              <ListItem>
-                <HStack justifyContent="space-between">
-                  <Box>
-                    {key.toLowerCase()}: {stats.status[key]}
-                  </Box>
-                  <Box>({(stats.status[key] / stats.residents) * 100}%)</Box>
-                </HStack>
-              </ListItem>
-            ))}
-            <ListItem>Total: {stats.residents}</ListItem>
-          </List>
-        </Container>
-        <Container px={4}>
-          <Heading size="sm" mb={2}>
-            Residents by Species
-          </Heading>
-          <List>
-            {Object.keys(stats.species).map((key) => (
-              <ListItem>
-                <HStack justifyContent="space-between">
-                  <Box>
-                    {key.toLowerCase()}: {stats.species[key]}
-                  </Box>
-                  <Box>({(stats.species[key] / stats.residents) * 100}%)</Box>
-                </HStack>
-              </ListItem>
-            ))}
-          </List>
-        </Container>
-      </HStack>
+      <Grid templateColumns="repeat(2, 1fr)" gap={6} w="100%">
+        <GridItem>
+          <Container px={4} minH="150px">
+            <Heading size="sm" mb={2}>
+              Residents by Status
+            </Heading>
+            <List>
+              {Object.keys(stats.status).map((key) => (
+                <ListItem>
+                  <HStack justifyContent="space-between">
+                    <Box>
+                      {key.toLowerCase()}: {stats.status[key]}
+                    </Box>
+                    <Box>({(stats.status[key] / stats.residents) * 100}%)</Box>
+                  </HStack>
+                </ListItem>
+              ))}
+              <ListItem>Total: {stats.residents}</ListItem>
+            </List>
+          </Container>
+        </GridItem>
+        <GridItem>
+          <Container px={4} minH="150px">
+            <Heading size="sm" mb={2}>
+              Residents by Species
+            </Heading>
+            <List>
+              {Object.keys(stats.species).map((key) => (
+                <ListItem>
+                  <HStack justifyContent="space-between">
+                    <Box>
+                      {key.toLowerCase()}: {stats.species[key]}
+                    </Box>
+                    <Box>({(stats.species[key] / stats.residents) * 100}%)</Box>
+                  </HStack>
+                </ListItem>
+              ))}
+            </List>
+          </Container>
+        </GridItem>
+      </Grid>
 
       <Heading w="100%">Residents</Heading>
       <Tabs w="100%">
