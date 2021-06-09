@@ -19,11 +19,7 @@ export const Header = () => {
       </Box>
       <HStack>
         <Link href="/" passHref>
-          <Button as="a" variant="link" colorScheme="pink" minW="60px">Home</Button>
-        </Link>
-
-        <Link href="/about" passHref>
-          <Button as="a" variant="link" colorScheme="pink" minW="60px">About</Button>
+          <Button as="a" variant="link" minW="60px">Home</Button>
         </Link>
       </HStack>
     </HStack>

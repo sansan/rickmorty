@@ -1,27 +1,30 @@
 import { request, gql } from 'graphql-request';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
-import chunk from 'lodash/chunk';
+import isEmpty from 'lodash/isEmpty';
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
 
 import { slugify } from '@rickmorty/utils';
 import { API_ENDPOINT } from '@rickmorty/config';
 
-import { GetLocationsResponse, Location, Character, Info } from './locations.d';
+import { GetLocationsResponse } from './locations.d'
+import {
+  Location,
+  FilterLocation,
+  Info,
+} from './rickmorty.d';
 
-const getLocationFilter = ({ dimension, type }) => {
-  if (!dimension && !type) {
+const getLocationFilter = (props: Partial<FilterLocation>) => {
+  const filter = omitBy(props, isNil);
+
+  if (isEmpty(filter)) {
     return '';
   }
 
-  const filterProperties = [];
-
-  if (dimension) {
-    filterProperties.push(`dimension: "${dimension}"`);
-  }
-
-  if (type) {
-    filterProperties.push(`type: "${type}"`);
-  }
+  const filterProperties = Object.keys(filter).map(
+    (key) => `${key}: "${filter[key]}"`
+  );
 
   return `filter: {${filterProperties.join(', ')}}`;
 };
@@ -42,6 +45,10 @@ export const getLocations = async ({
     gql`
       query {
         locations(page: ${page}, ${filter}) {
+          info{
+            pages
+            next
+          }
           results {
             id
             name
@@ -77,92 +84,7 @@ export const getLocationById = async ({ id }: Pick<Location, 'id'>) => {
   return location;
 };
 
-type PaginatedCharacters = Pick<Character, 'id' | 'name'> & {
-  location: Pick<Location, 'id'>;
-  origin: Pick<Location, 'id'>;
-};
 
-export const getCharacterPage = async ({
-  pageNumber,
-}: {
-  pageNumber: number;
-}) => {
-  const response = await request<{
-    characters: { results: PaginatedCharacters };
-  }>(
-    API_ENDPOINT,
-    gql`
-      query {
-        characters(page: ${pageNumber}) {
-          results {
-            id
-            name
-            species
-            type
-            location {
-              id
-            }
-            origin {
-              id
-            }
-          }
-        }
-      }
-    `
-  );
-
-  return response?.characters?.results || [];
-};
-
-export const getCharacterById = async ({ id }: Pick<Character, 'id'>) =>
-  await request<Character>(
-    API_ENDPOINT,
-    gql`
-      query {
-        character(id: ${id}) {
-            id
-            name
-            type
-            dimension
-        }
-      }
-    `
-  );
-
-export const getAllCharacters = async () => {
-  const {
-    characters: {
-      info: { pages },
-    },
-  } = await request<{ characters: { info: { pages: number } } }>(
-    API_ENDPOINT,
-    gql`
-      query {
-        characters {
-          info {
-            pages
-          }
-        }
-      }
-    `
-  );
-
-  const pagesForRequest = chunk(
-    new Array(pages).fill('').map((_, index) => index + 1),
-    3
-  );
-  let results = [];
-
-  for (let i = 0; i < pagesForRequest.length; i++) {
-    const response = await Promise.all(
-      pagesForRequest[i].map((pageNumber) => getCharacterPage({ pageNumber }))
-    );
-
-    results = [...results, ...flatten(response)]
-  }
-
-  return flatten(results) as PaginatedCharacters[];
-};
 
 const getLocationTypeAndDimension = async ({ pageNumber }) => {
   const response = await request<{
@@ -184,7 +106,7 @@ const getLocationTypeAndDimension = async ({ pageNumber }) => {
   return response?.locations?.results || [];
 };
 
-export const getAllLocationParams = async () => {
+export const getLocationPageCount = async () => {
   const {
     locations: {
       info: { pages },
@@ -201,6 +123,22 @@ export const getAllLocationParams = async () => {
       }
     `
   );
+
+  return pages;
+};
+
+export const getAllLocations = async (): Promise<Pick<Location, "id" | "name" | "dimension" | "type">[]> => {
+  const pages = await getLocationPageCount();
+
+  const response = await Promise.all(
+    new Array(pages).fill('').map((_, i) => getLocations({ page: i + 1 }))
+  );
+
+  return flatten(response.map(( res ) => res.locations.results))
+};
+
+export const getAllLocationParams = async () => {
+  const pages = await getLocationPageCount();
 
   const response = await Promise.all(
     new Array(pages)
