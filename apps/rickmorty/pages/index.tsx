@@ -9,9 +9,8 @@ import {
   getLocations,
   Unwrap,
   getAllLocationParams,
-  GetLocationsResponse,
 } from '@rickmorty/services';
-import { slugify, isOnServer } from '@rickmorty/utils';
+import { isOnServer } from '@rickmorty/utils';
 
 import { Seo } from '@rickmorty/ui/atoms';
 import { Filter } from '@rickmorty/ui/organisms';
@@ -47,15 +46,7 @@ export function Index({
     ? params.types.find(({ slug }) => slug === type)?.name
     : null;
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     ['locations', selectedDimension, selectedType],
     ({ pageParam = 0 }) => {
       console.log(pageParam);
@@ -96,6 +87,7 @@ export function Index({
           hasNextPage={hasNextPage}
           locations={locations}
           fetchNextPage={fetchNextPage}
+          isFetching={isFetching}
         />
       </Content.Full>
     </>

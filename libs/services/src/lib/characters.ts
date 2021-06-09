@@ -6,9 +6,9 @@ import { API_ENDPOINT } from '@rickmorty/config';
 
 import { Location, Character } from './rickmorty.d';
 
-type PaginatedCharacters = Omit<Character, 'episode' | 'created' | 'type'> & {
-  location: Pick<Location, 'id'>;
-  origin: Pick<Location, 'id'>;
+type PaginatedCharacters = Omit<Character, 'episode' | 'created' | 'type' | 'location' | 'origin'> & {
+  location: Pick<Location, 'id' | 'name'>;
+  origin: Pick<Location, 'id' | 'name'>;
 };
 
 export const getCharacterPage = async ({

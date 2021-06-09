@@ -1,13 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { Button, Heading, Grid, GridItem } from '@chakra-ui/react';
+import { Button, Heading, Grid, GridItem, Spinner } from '@chakra-ui/react';
 
 import { slugify } from '@rickmorty/utils';
 
 import { Card } from '@rickmorty/ui/molecules';
 
-const LocationGrid = ({ hasNextPage, fetchNextPage, locations }) => {
+const LocationGrid = ({
+  hasNextPage,
+  fetchNextPage,
+  locations,
+  isFetching,
+}) => {
   return (
     <>
       <Grid templateColumns="repeat(3, 1fr)" gap={6} w="100%">
@@ -36,7 +41,10 @@ const LocationGrid = ({ hasNextPage, fetchNextPage, locations }) => {
           </GridItem>
         ))}
       </Grid>
-      {hasNextPage && (
+
+      {isFetching && <Spinner />}
+
+      {hasNextPage && !isFetching && (
         <Button onClick={() => fetchNextPage()} colorScheme="blue">
           Load More
         </Button>
