@@ -13,7 +13,6 @@ import {
   HStack,
   List,
   ListItem,
-  Avatar,
   Tabs,
   TabList,
   TabPanels,
@@ -31,6 +30,8 @@ import {
 import { slugify } from '@rickmorty/utils';
 
 import { Seo, Container } from '@rickmorty/ui/atoms';
+
+import CharacterCard from '../../../components/routes/locations/CharacterCard';
 
 const Location = ({ location }) => {
   const { data: characters } = useQuery(
@@ -117,67 +118,21 @@ const Location = ({ location }) => {
               <AlertIcon />
               <AlertTitle mr={2}>How are residents determined?</AlertTitle>
               <AlertDescription>
-                According to some countries residents are always considered to be those who are originally from the location not considering where they are nwo.
+                According to some countries residents are always considered to
+                be those who are originally from the location not considering
+                where they are nwo.
               </AlertDescription>
             </Alert>
             <List w="100%" spacing={5}>
               {residents.map((resident) => (
-                <Container px={5} key={resident.id}>
-                  <ListItem>
-                    <HStack>
-                      <Avatar
-                        name={resident.name}
-                        src={resident.image}
-                        size="2xl"
-                      />
-                      <Box pl={5}>
-                        <Heading size="md">{resident.name}</Heading>
-                        <List>
-                          <ListItem>Status: {resident.status}</ListItem>
-                          <ListItem>Species: {resident.species}</ListItem>
-                          <ListItem>Gender: {resident.gender}</ListItem>
-                          <ListItem>
-                            Location:{' '}
-                            {resident.location.id === location.id
-                              ? `home @${resident.location.name}`
-                              : `@${resident.location.name}`}
-                          </ListItem>
-                        </List>
-                      </Box>
-                    </HStack>
-                  </ListItem>
-                </Container>
+                <CharacterCard character={resident} />
               ))}
             </List>
           </TabPanel>
           <TabPanel>
             <List w="100%" spacing={5}>
-              {visitors.map((resident) => (
-                <Container px={5} key={resident.id}>
-                  <ListItem>
-                    <HStack>
-                      <Avatar
-                        name={resident.name}
-                        src={resident.image}
-                        size="2xl"
-                      />
-                      <Box pl={5}>
-                        <Heading size="md">{resident.name}</Heading>
-                        <List>
-                          <ListItem>Status: {resident.status}</ListItem>
-                          <ListItem>Species: {resident.species}</ListItem>
-                          <ListItem>Gender: {resident.gender}</ListItem>
-                          <ListItem>
-                            Location:{' '}
-                            {resident.location.id === location.id
-                              ? `home @${resident.location.name}`
-                              : `@${resident.location.name}`}
-                          </ListItem>
-                        </List>
-                      </Box>
-                    </HStack>
-                  </ListItem>
-                </Container>
+              {visitors.map((visitor) => (
+                <CharacterCard character={visitor} isVisitor />
               ))}
             </List>
           </TabPanel>
